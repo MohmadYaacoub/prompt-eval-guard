@@ -45,10 +45,10 @@ Drop the folder into your Claude Code skills directory:
 
 ```bash
 # project-scoped
-git clone https://github.com/MohmadYaacoub/-prompt-eval-guard.git .claude/skills/prompt-eval-guard
+git clone https://github.com/MohmadYaacoub/prompt-eval-guard.git .claude/skills/prompt-eval-guard
 
 # or user-scoped (available in every project)
-git clone https://github.com/MohmadYaacoub/-prompt-eval-guard.git ~/.claude/skills/prompt-eval-guard
+git clone https://github.com/MohmadYaacoub/prompt-eval-guard.git ~/.claude/skills/prompt-eval-guard
 ```
 
 Claude auto-loads it whenever you start editing a prompt. That's it.
@@ -59,8 +59,8 @@ Want to see it catch a regression before trusting it on your own prompts? Run
 the bundled example — no API key needed for the deterministic graders:
 
 ```bash
-git clone https://github.com/MohmadYaacoub/-prompt-eval-guard.git
-cd -prompt-eval-guard
+git clone https://github.com/MohmadYaacoub/prompt-eval-guard.git
+cd prompt-eval-guard
 
 # Two toy prompts: the "new" one is more terse and drops a required word.
 printf 'You are a helpful assistant. If input is empty, reply "Please provide input."' > /tmp/old.txt

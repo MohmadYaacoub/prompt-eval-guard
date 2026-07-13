@@ -1,6 +1,11 @@
 # prompt-eval-guard
 
-> A Claude Skill that won't let you ship a prompt change you can't prove is better.
+> **Your code has `git diff`. Your prompts have nothing.**
+> This is the missing diff — a Claude Skill that runs your old and new prompt
+> side by side and *refuses* to call the change "done" if it quietly broke
+> something that used to work.
+
+<sub>⚡ Zero-setup demo below — clone and watch it catch a regression in 60 seconds, no API key.</sub>
 
 ## The problem this solves
 

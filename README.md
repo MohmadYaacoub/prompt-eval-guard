@@ -91,6 +91,28 @@ python scripts/run_eval.py \
 
 It prints the verdict table and **exits non-zero if any case regressed**, so it drops straight into a pre-commit hook or CI job. The model call is pluggable — wire the `call_model` function to whatever provider you use.
 
+## Auto-generate the test set from your prompt
+
+The hardest part of evaluating prompts is starting — staring at an empty
+`cases.jsonl` wondering what to test. So don't. Point the generator at the
+prompt itself and it drafts a starter set covering the happy path, every
+explicit rule in the prompt, the output format, empty/malformed input, and an
+adversarial/off-task input:
+
+```bash
+python scripts/gen_cases.py --prompt prompts/system.txt --out evals/cases.jsonl
+```
+
+It reads your prompt, derives cases, assigns the cheapest valid grader to each,
+and appends them in the schema the runner understands. **Review them before
+trusting** — generated cases are a starting point, not ground truth: delete the
+irrelevant ones, fix any wrong expectations, and add the specific failure that
+made you touch the prompt in the first place.
+
+Inside Claude Code the skill does this for you automatically — when you edit a
+prompt with no test set, it proposes candidate cases and asks you to approve
+them before saving.
+
 ## Write a test case
 
 `evals/cases.jsonl` — one JSON object per line:

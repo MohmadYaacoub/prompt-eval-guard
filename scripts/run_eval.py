@@ -20,28 +20,7 @@ import re
 import sys
 from dataclasses import dataclass
 
-
-# --------------------------------------------------------------------------- #
-#  PLUG YOUR MODEL IN HERE
-# --------------------------------------------------------------------------- #
-def call_model(system_prompt: str, user_input: str) -> str:
-    """Return the model's text output for (system_prompt, user_input).
-
-    Replace the body with a real call. Example for the Anthropic SDK:
-
-        from anthropic import Anthropic
-        client = Anthropic()
-        msg = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=1024,
-            system=system_prompt,
-            messages=[{"role": "user", "content": user_input}],
-        )
-        return msg.content[0].text
-    """
-    raise NotImplementedError(
-        "Wire call_model() to your LLM provider before running. See the docstring."
-    )
+from model import call_model  # wire your provider once in scripts/model.py
 
 
 def judge(rubric: str, user_input: str, output: str) -> bool:

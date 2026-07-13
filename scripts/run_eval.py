@@ -95,6 +95,13 @@ def read_prompt(path: str) -> str:
 
 
 def main() -> int:
+    # The verdict table uses ✅/⚠/Δ; force UTF-8 so it never crashes on a
+    # legacy Windows (cp1252) console.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
     ap = argparse.ArgumentParser(description="Regression-check a prompt change.")
     ap.add_argument("--old", required=True, help="path to the current/old prompt")
     ap.add_argument("--new", required=True, help="path to the proposed/new prompt")

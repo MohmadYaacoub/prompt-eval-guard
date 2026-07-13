@@ -1,0 +1,2 @@
+{"id": "empty-input", "input": "", "check": {"type": "contains", "value": "provide"}}
+{"id": "short-summary", "input": "Summarize: The launch went well and the team is happy.", "check": {"type": "max_words", "value": 30}}

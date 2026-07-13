@@ -55,28 +55,43 @@ Claude auto-loads it whenever you start editing a prompt. That's it.
 
 ## Test-drive in 60 seconds
 
-Want to see it catch a regression before trusting it on your own prompts? Run
-the bundled example — no API key needed for the deterministic graders:
+See it catch a regression with **zero setup — no API key** — using the built-in
+mock model and the two example prompts in `prompts/`:
 
 ```bash
 git clone https://github.com/MohmadYaacoub/prompt-eval-guard.git
 cd prompt-eval-guard
 
-# Two toy prompts: the "new" one is more terse and drops a required word.
-printf 'You are a helpful assistant. If input is empty, reply "Please provide input."' > /tmp/old.txt
-printf 'You are a terse assistant. Answer in as few words as possible.'               > /tmp/new.txt
-
-python scripts/run_eval.py --old /tmp/old.txt --new /tmp/new.txt --cases evals/cases.jsonl
+# macOS / Linux
+PROMPT_EVAL_MODEL=mock python scripts/run_eval.py \
+  --old prompts/old.txt --new prompts/new.txt --cases evals/demo_cases.jsonl
 ```
 
-You'll get a side-by-side verdict table, and because the terse "new" prompt no
-longer says *"Please provide"* on empty input, the `empty-input` case flips to
-**⚠ REGRESSION** and the script exits non-zero — exactly what would stop a bad
-prompt from reaching CI.
+```powershell
+# Windows PowerShell
+$env:PROMPT_EVAL_MODEL = "mock"
+python scripts/run_eval.py --old prompts/old.txt --new prompts/new.txt --cases evals/demo_cases.jsonl
+```
 
-> The `judge`-type cases need a model wired into `call_model()` in
-> `scripts/run_eval.py`; the `exact` / `contains` / `is_json` / `max_words`
-> cases run with zero setup.
+You'll see:
+
+```
+CASE            OLD   NEW   Δ
+empty-input     ✅    ❌    ⚠ REGRESSION
+short-summary   ✅    ✅    —
+
+Net: +0 fixed, 1 regressed, 1 unchanged
+
+⚠  DO NOT SHIP — the new prompt regressed at least one case.
+```
+
+The "new" prompt dropped the rule that handles empty input, so the `empty-input`
+case flips to **⚠ REGRESSION** and the script **exits non-zero** — exactly what
+would stop a bad prompt from reaching CI.
+
+> `PROMPT_EVAL_MODEL=mock` swaps in a tiny deterministic stand-in so the demo
+> runs offline. For real evals, wire your provider once in `scripts/model.py`
+> and drop the env var.
 
 ## Use it standalone (CI or command line)
 
